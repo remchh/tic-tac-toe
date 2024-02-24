@@ -14,11 +14,40 @@ const items = ref([
   {id: 8, val: '', toggle: false},
 ])
 
-const status = ['TURNO X', 'TURNO B', 'PLAYER X WIN!', 'PLAYER O WIN!']
+const status = ['TURNO X', 'TURNO O', 'PLAYER X WIN!', 'PLAYER O WIN!']
+
 const turno = ref(false)
 const cambioTurno = () => {
   turno.value = !turno.value
   console.log('Cambio de turno', turno.value)
+}
+
+const checkWin = () => {
+  if(
+    (items.value[0].val === 'X' && items.value[1].val === 'X' && items.value[2].val === 'X') ||
+    (items.value[3].val === 'X' && items.value[4].val === 'X' && items.value[5].val === 'X') || 
+    (items.value[6].val === 'X' && items.value[7].val === 'X' && items.value[8].val === 'X') ||
+    (items.value[0].val === 'X' && items.value[3].val === 'X' && items.value[6].val === 'X') ||
+    (items.value[1].val === 'X' && items.value[4].val === 'X' && items.value[7].val === 'X') ||
+    (items.value[2].val === 'X' && items.value[5].val === 'X' && items.value[8].val === 'X') ||
+    (items.value[0].val === 'X' && items.value[4].val === 'X' && items.value[8].val === 'X') ||
+    (items.value[2].val === 'X' && items.value[4].val === 'X' && items.value[6].val === 'X') 
+    ) 
+  {
+    console.log('X WINS')
+  } else if(
+    (items.value[0].val === 'O' && items.value[1].val === 'O' && items.value[2].val === 'O') ||
+    (items.value[3].val === 'O' && items.value[4].val === 'O' && items.value[5].val === 'O') || 
+    (items.value[6].val === 'O' && items.value[7].val === 'O' && items.value[8].val === 'O') ||
+    (items.value[0].val === 'O' && items.value[3].val === 'O' && items.value[6].val === 'O') ||
+    (items.value[1].val === 'O' && items.value[4].val === 'O' && items.value[7].val === 'O') ||
+    (items.value[2].val === 'O' && items.value[5].val === 'O' && items.value[8].val === 'O') ||
+    (items.value[0].val === 'O' && items.value[4].val === 'O' && items.value[8].val === 'O') ||
+    (items.value[2].val === 'O' && items.value[4].val === 'O' && items.value[6].val === 'O') 
+  )
+  {
+    console.log('O WINS')
+  }
 }
 
 const showValue = (id) => {
@@ -31,8 +60,8 @@ const showValue = (id) => {
     items.value[id].val = 'O'
   }
   console.log(items.value[id].val)
+  checkWin()
 }
-
 
 //item.toggle == true ? item.val = 'X' : item.val = 'O'
 </script>
@@ -48,11 +77,11 @@ const showValue = (id) => {
       <div 
         v-for="item in items"
         :key="item.id"
-        class="text-center bg-slate-200 h-24"
+        class="text-center bg-slate-200 "
       >
-        <div class="value grid content-center h-24" @click="showValue(item.id)">
+        <button class="value grid content-center h-24 w-32" @click="showValue(item.id)" :disabled="item.toggle">
           {{ item.val }}
-        </div>
+        </button>
       </div>
     
     </div>
